@@ -89,12 +89,12 @@ class Book extends Model
     }
 
     protected static function booted() {
-        static::updated(function (Review $review) {
-            return cache()->forget("book:". $review->book_id);
+        static::updated(function (Book $book) {
+            return cache()->forget("book:". $book->id);
         });
 
-        static::deleted(function (Review $review) {
-            return cache()->forget("book:" . $review->book_id);
+        static::deleted(function (Book $book) {
+            return cache()->forget("book:" . $book->id);
         });
     }
 }
