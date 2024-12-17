@@ -56,16 +56,16 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(int $id)
     {
-        $cacheKey = "books:" . $book->id;
+        $cacheKey = "books:" . $id;
 
-        $book = cache()->remember($cacheKey, 3600, function () use ($book) {
-            return $book->load([
+        $book = cache()->remember($cacheKey, 3600, function () use($id) {
+            return Book::with([
                 'reviews' => function ($query) {
                     return $query->latest();
                 },
-            ]);
+            ])->withAvgRating()->withReviewsCount()->findOrFail($id);
         });
 
         return view('books.show', ['book' => $book]);
