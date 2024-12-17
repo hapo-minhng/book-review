@@ -29,7 +29,7 @@ class ReviewController extends Controller
     public function store(Request $request, Book $book)
     {
         $data = $request->validate([
-            'review' => 'required|min:15',
+            'review' => 'required|min:3',
             'rating' => 'required|min:1|max:5|integer',
         ]);
 
