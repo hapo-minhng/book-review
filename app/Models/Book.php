@@ -77,4 +77,14 @@ class Book extends Model
             ->popular(now()->subMonths(6), now())
             ->minReviews(5);
     }
+
+    protected static function booted() {
+        static::updated(function (Review $review) {
+            return cache()->forget("book:". $review->book_id);
+        });
+
+        static::deleted(function (Review $review) {
+            return cache()->forget("book:" . $review->book_id);
+        });
+    }
 }
