@@ -8,7 +8,9 @@ Route::get('/', function () {
     return redirect()->route('books.index');
 });
 
-Route::resource('books', BookController::class);
+Route::resource('books', BookController::class)
+    ->only(['index', 'show']);
 
-Route::resource('reviews', ReviewController::class);
-
+Route::resource('reviews', ReviewController::class)
+    ->scoped(['review' => 'book'])
+    ->only(['create', 'store']);
